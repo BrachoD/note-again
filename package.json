@@ -25,7 +25,12 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
     "postcss": "^8.5.3",
-    "tailwindcss": "^4.1.4",
+    "tailwindcss": "^3.3.5",
     "vite": "^6.2.0"
-  }
+  },
+  "description": "Note Again is a personal project inspired by tools like Notion.   It's a minimalist note-taking web app built with React and Tailwind CSS.   The goal of this project is to practice Front End development skills and create a showcase piece for my portfolio.",
+  "main": "eslint.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
