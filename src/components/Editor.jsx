@@ -1,20 +1,15 @@
-import React from "react";
+function Editor({ selectedNote }) {
+    if (!selectedNote) {
+        return <div className="p-4">Selecciona una nota para comenzar a editar.</div>;
+    }
 
-const Editor = ({ selectedNote }) => {
     return (
         <div className="flex-1 p-4">
-            <input
-                className="w-full text-2xl font-bold mb-4"
-                value={selectedNote?.title || ""}
-                readOnly
-            />
-            <textarea
-                className="w-full h-96 border p-2"
-                value={selectedNote?.content || ""}
-                readOnly
-            />
+            <h2 className="text-xl font-bold mb-2">{selectedNote.title}</h2>
+            <p>{selectedNote.content}</p>
+            {/* Aquí irán campos para editar la nota */}
         </div>
     );
-};
+}
 
 export default Editor;
