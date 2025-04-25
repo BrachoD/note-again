@@ -3,7 +3,6 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Editor from "./components/Editor";
 
-
 function App() {
   const [notes, setNotes] = useState([
     { id: 1, title: "Ideas para el portafolio", content: "Agregar proyectos de React y una landing page personal." },
@@ -15,12 +14,27 @@ function App() {
 
   const [selectedNote, setSelectedNote] = useState(null);
 
+  //Clicking on a note from the list.
+  const handleSelectNote = (note) => {
+    setSelectedNote(note);
+  };
+
+  //Updating a note from the editor.
+  const handleUpdateNote = (updatedNote) => {
+    const updatedNotes = notes.map((note) =>
+      note.id === updatedNote.id ? updatedNote : note
+    );
+    setNotes(updatedNotes);
+  };
+
   return (
     <div className="h-screen flex flex-col">
       <Header />
       <div className="flex flex-1">
-        <Sidebar notes={notes} onSelectNote={setSelectedNote} />
-        <Editor selectedNote={selectedNote}/>
+        {/* <Sidebar notes={notes} onSelectNote={setSelectedNote} />
+        <Editor selectedNote={selectedNote}/> */}
+        <Sidebar notes={notes} onSelectNote={handleSelectNote} />
+        <Editor selectedNote={selectedNote} onUpdateNote={handleUpdateNote}/>
       </div>
     </div>
   );
