@@ -36,8 +36,10 @@ function App() {
   const handleAddNote = () => {
     const newNote = {
       id: Date.now(),          // Generates a random ID based on the timestamp
-      title: "Nueva nota",
-      content: ""
+      title: "New note",
+      content: "",
+      createdAt: new Date().toISOString(), // Saves note creation date and time
+      updatedAt: "Just Now" // Saves last time note was edited.
     };
     setNotes(prevNotes => [newNote, ...prevNotes]); // Adds new note to the top
     setSelectedNote(newNote);                  // Automatically selects new note
