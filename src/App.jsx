@@ -19,6 +19,14 @@ function App() {
 
   const [selectedNote, setSelectedNote] = useState(null);
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  //Looking for filtered notes.
+  const filteredNotes = notes.filter(note =>
+    note.title.toLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
+    note.content.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+  );
+
   //Clicking on a note from the list.
   const handleSelectNote = (note) => {
     setSelectedNote(note);
@@ -58,14 +66,14 @@ function App() {
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
-  
+
 
   return (
     <div className="h-screen flex flex-col">
       <Header handleAddNote={handleAddNote} />
       <div className="flex flex-1">
         <Sidebar notes={notes} onSelectNote={handleSelectNote} />
-        <Editor selectedNote={selectedNote} onUpdateNote={handleUpdateNote} onDeleteNote={handleDeleteNote}/>
+        <Editor selectedNote={selectedNote} onUpdateNote={handleUpdateNote} onDeleteNote={handleDeleteNote} />
       </div>
     </div>
   );
