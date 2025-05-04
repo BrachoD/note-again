@@ -54,7 +54,7 @@ function Editor({ selectedNote, onUpdateNote, onDeleteNote }) {
                 Created: {new Date(selectedNote.createdAt).toLocaleString()}
             </div>
             <div className="text-sm text-gray-600">
-                Last Modified: {new Date(selectedNote.updatedAt).toLocaleString()}
+                Last Modified: {selectedNote.updatedAt === selectedNote.createdAt ? 'Never.' : new Date(selectedNote.updatedAt).toLocaleString()}
             </div>
             {selectedNote && (
                 <button onClick={() => onDeleteNote(selectedNote.id)}

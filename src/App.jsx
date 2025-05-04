@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Editor from "./components/Editor";
+import Swal from 'sweetalert2';
 
 function App() {
   // const [notes, setNotes] = useState([
@@ -42,12 +43,20 @@ function App() {
 
   //Adding a new note.
   const handleAddNote = () => {
+    const baseTitle = "New Note";
+    // Filters all the notes titles that start with "New Note"
+    const similarNotes = notes.filter(note =>
+      note.title === baseTitle || note.title.startsWith(`${baseTitle}(`)
+    );
+
     const newNote = {
       id: Date.now(),          // Generates a random ID based on the timestamp
-      title: "New note",
+      title: similarNotes.length === 0
+        ? baseTitle
+        : `${baseTitle}(${similarNotes.length + 1})`,
       content: "",
       createdAt: new Date().toISOString(), // Saves note creation date and time
-      updatedAt: "Just Now" // Saves last time note was edited.
+      updatedAt: new Date().toISOString(),// Saves last time note was edited.
     };
     setNotes(prevNotes => [newNote, ...prevNotes]); // Adds new note to the top
     setSelectedNote(newNote);                  // Automatically selects new note
@@ -55,11 +64,31 @@ function App() {
 
   //Deleting an existing note
   const handleDeleteNote = (id) => {
-    setNotes(prevNotes => prevNotes.filter(note => note.id !== id));
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'This note will be permanently deleted. This action cannot be undone.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      customClass: {
+        confirmButton: 'bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded mx-2',
+        cancelButton: 'bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded mx-2'
+      },
+      buttonsStyling: false
+    }).then((result) => {
+      if (result.isConfirmed) {
 
-    if (selectedNote.id === id) {
-      setSelectedNote(null); //Unselect if it was selected
-    }
+
+
+
+        setNotes(prevNotes => prevNotes.filter(note => note.id !== id));
+
+        if (selectedNote.id === id) {
+          setSelectedNote(null); //Unselect if it was selected
+        }
+        Swal.fire('Deleted!', 'Your note has been deleted.', 'success');
+      }
+    });
   };
 
   //Updates localStorage everytime a note changes.
@@ -72,7 +101,7 @@ function App() {
     <div className="h-screen flex flex-col">
       <Header handleAddNote={handleAddNote} />
       <div className="flex flex-1">
-        <Sidebar notes={notes} onSelectNote={handleSelectNote} />
+        <Sidebar notes={filteredNotes} onSelectNote={handleSelectNote} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         <Editor selectedNote={selectedNote} onUpdateNote={handleUpdateNote} onDeleteNote={handleDeleteNote} />
       </div>
     </div>
