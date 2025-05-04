@@ -22,6 +22,8 @@ function App() {
 
   const [searchTerm, setSearchTerm] = useState("");
 
+  const [sortOrderAsc, setSortOrderAsc] = useState(true);
+
   //Looking for filtered notes.
   const filteredNotes = notes.filter(note =>
     note.title.toLowerCase().includes(searchTerm.toLocaleLowerCase()) ||
@@ -77,18 +79,22 @@ function App() {
       buttonsStyling: false
     }).then((result) => {
       if (result.isConfirmed) {
-
-
-
-
         setNotes(prevNotes => prevNotes.filter(note => note.id !== id));
-
         if (selectedNote.id === id) {
           setSelectedNote(null); //Unselect if it was selected
         }
         Swal.fire('Deleted!', 'Your note has been deleted.', 'success');
       }
     });
+  };
+
+  //Sort notes by name.
+  const sortNotesByName = () => {
+    const sorted = [...notes].sort((a, b) => {
+      return sortOrderAsc ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
+    });
+    setNotes(sorted);
+    setSortOrderAsc(!sortOrderAsc)
   };
 
   //Updates localStorage everytime a note changes.
@@ -101,7 +107,7 @@ function App() {
     <div className="h-screen flex flex-col">
       <Header handleAddNote={handleAddNote} />
       <div className="flex flex-1">
-        <Sidebar notes={filteredNotes} onSelectNote={handleSelectNote} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <Sidebar notes={filteredNotes} onSelectNote={handleSelectNote} searchTerm={searchTerm} setSearchTerm={setSearchTerm} onSortNotes={sortNotesByName} sortOrderAsc={sortOrderAsc} />
         <Editor selectedNote={selectedNote} onUpdateNote={handleUpdateNote} onDeleteNote={handleDeleteNote} />
       </div>
     </div>
