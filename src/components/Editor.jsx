@@ -39,28 +39,31 @@ function Editor({ selectedNote, onUpdateNote, onDeleteNote }) {
 
         <div className="p-4 flex flex-col gap-4 w-full items-center">
             <input
-                className="text-xl font-semibold p-2 border-b w-full"
+                className="text-xl font-semibold p-2 border-b w-full bg-white dark:bg-gray-700 text-black dark:text-white"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="Título de la nota"
+                placeholder="Note Title"
             />
             <textarea
-                className="flex-1 p-2 border rounded h-[300px] w-full"
+                className="flex-1 p-2 border rounded h-[300px] w-full bg-white dark:bg-gray-700 text-black dark:text-white"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="Escribe tu nota aquí..."
+                placeholder="Write your note here..."
             />
-            <div className="text-sm text-gray-600">
+
+            <div className="text-sm text-gray-600 dark:text-gray-100">
                 Created: {new Date(selectedNote.createdAt).toLocaleString()}
             </div>
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-gray-60 dark:text-gray-100">
                 Last Modified: {selectedNote.updatedAt === selectedNote.createdAt ? 'Never.' : new Date(selectedNote.updatedAt).toLocaleString()}
             </div>
             {selectedNote && (
-                <button onClick={() => onDeleteNote(selectedNote.id)}
-                    className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded mt-4">
-                    🗑️ Delete Note
-                </button>
+                <div className="">
+                    <button onClick={() => onDeleteNote(selectedNote.id)}
+                        className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded mt-4">
+                        🗑️ Delete Note
+                    </button>
+                </div>
             )}
 
         </div>

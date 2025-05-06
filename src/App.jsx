@@ -13,6 +13,8 @@ function App() {
   //   { id: 5, title: "Recordatorios semanales", content: "Lunes: revisar tareas. Viernes: actualizar Trello." }
   // ]);
 
+
+
   const [notes, setNotes] = useState(() => {
     const savedNotes = localStorage.getItem("notes");
     return savedNotes ? JSON.parse(savedNotes) : [];
@@ -23,6 +25,28 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const [sortOrderAsc, setSortOrderAsc] = useState(true);
+
+  //Dark mode logic.
+  const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('darkMode'));
+
+  useEffect(() => {
+    const storedDarkMode = localStorage.getItem('darkMode') === 'true';
+    setIsDarkMode(storedDarkMode);
+  }, []);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    localStorage.setItem('darkMode', !isDarkMode);
+
+  };
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
 
   //Looking for filtered notes.
   const filteredNotes = notes.filter(note =>
@@ -104,8 +128,8 @@ function App() {
 
 
   return (
-    <div className="h-screen flex flex-col">
-      <Header handleAddNote={handleAddNote} />
+    <div className="h-screen flex flex-col bg-white dark:bg-gray-900 text-black dark:text-white">
+      <Header handleAddNote={handleAddNote} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
       <div className="flex flex-1">
         <Sidebar notes={filteredNotes} onSelectNote={handleSelectNote} searchTerm={searchTerm} setSearchTerm={setSearchTerm} onSortNotes={sortNotesByName} sortOrderAsc={sortOrderAsc} />
         <Editor selectedNote={selectedNote} onUpdateNote={handleUpdateNote} onDeleteNote={handleDeleteNote} />
