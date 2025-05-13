@@ -3,6 +3,9 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Editor from "./components/Editor";
 import Swal from 'sweetalert2';
+import { Toaster } from "react-hot-toast";
+import { toast } from 'react-hot-toast';
+
 
 function App() {
   // const [notes, setNotes] = useState([
@@ -27,7 +30,10 @@ function App() {
   const [sortOrderAsc, setSortOrderAsc] = useState(true);
 
   //Dark mode logic.
-  const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('darkMode'));
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem('darkMode') === 'true';
+  });
+
 
   useEffect(() => {
     const storedDarkMode = localStorage.getItem('darkMode') === 'true';
@@ -86,6 +92,7 @@ function App() {
     };
     setNotes(prevNotes => [newNote, ...prevNotes]); // Adds new note to the top
     setSelectedNote(newNote);                  // Automatically selects new note
+    toast.success('Note added!');
   };
 
   //Deleting an existing note
@@ -128,13 +135,25 @@ function App() {
 
 
   return (
-    <div className="h-screen flex flex-col bg-white dark:bg-gray-900 text-black dark:text-white">
-      <Header handleAddNote={handleAddNote} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-      <div className="flex flex-1">
-        <Sidebar notes={filteredNotes} onSelectNote={handleSelectNote} searchTerm={searchTerm} setSearchTerm={setSearchTerm} onSortNotes={sortNotesByName} sortOrderAsc={sortOrderAsc} />
-        <Editor selectedNote={selectedNote} onUpdateNote={handleUpdateNote} onDeleteNote={handleDeleteNote} />
+    <>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            background: '#333',
+            color: '#fff',
+          },
+        }}
+      />
+
+      <div className="h-screen flex flex-col bg-white dark:bg-gray-900 text-black dark:text-white transition-colors duration-500 animate-fadeIn">
+        <Header handleAddNote={handleAddNote} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+        <div className="flex flex-1">
+          <Sidebar notes={filteredNotes} onSelectNote={handleSelectNote} searchTerm={searchTerm} setSearchTerm={setSearchTerm} onSortNotes={sortNotesByName} sortOrderAsc={sortOrderAsc} />
+          <Editor selectedNote={selectedNote} onUpdateNote={handleUpdateNote} onDeleteNote={handleDeleteNote} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
