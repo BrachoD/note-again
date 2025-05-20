@@ -5,7 +5,7 @@ import SearchBar from "./SearchBar";
 const Sidebar = ({ notes, onSelectNote, searchTerm, setSearchTerm, onSortNotes, sortOrderAsc }) => {
 
     return (
-        <aside className="w-96 bg-gray-100 dark:bg-dark-surface text-black dark:text-dark-text h-full p-4 border-r border-gray-300 dark:border-dark-border flex flex-col transition-colors duration-500">
+        <aside className="w-96 overflow-hidden bg-gray-100 dark:bg-dark-surface text-black dark:text-dark-text h-full p-4 border-r border-gray-300 dark:border-dark-border flex flex-col transition-colors duration-500">
             <h2 className="text-xl font-bold mb-4">Notes</h2>
             <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             <button
