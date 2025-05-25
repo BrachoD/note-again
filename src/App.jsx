@@ -133,6 +133,9 @@ function App() {
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
 
+  //Sidebar behaviour logic.
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
 
   return (
     <>
@@ -147,9 +150,9 @@ function App() {
       />
 
       <div className="h-screen flex flex-col bg-white dark:bg-gray-900 text-black dark:text-white transition-colors duration-500 animate-fadeIn">
-        <Header handleAddNote={handleAddNote} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-        <div className="flex flex-1">
-          <Sidebar notes={filteredNotes} onSelectNote={handleSelectNote} searchTerm={searchTerm} setSearchTerm={setSearchTerm} onSortNotes={sortNotesByName} sortOrderAsc={sortOrderAsc} />
+        <Header handleAddNote={handleAddNote} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} setIsSidebarOpen={setIsSidebarOpen} />
+        <div className="flex flex-1 relative ">
+          <Sidebar notes={filteredNotes} onSelectNote={handleSelectNote} searchTerm={searchTerm} setSearchTerm={setSearchTerm} onSortNotes={sortNotesByName} sortOrderAsc={sortOrderAsc} isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
           <Editor selectedNote={selectedNote} onUpdateNote={handleUpdateNote} onDeleteNote={handleDeleteNote} />
         </div>
       </div>

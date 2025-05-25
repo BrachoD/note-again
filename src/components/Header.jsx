@@ -1,6 +1,13 @@
-const Header = ({ handleAddNote, isDarkMode, toggleDarkMode }) => {
+const Header = ({ handleAddNote, isDarkMode, toggleDarkMode, setIsSidebarOpen }) => {
     return (
         <header className="bg-white dark:bg-gray-900 text-black dark:text-white shadow-md p-4 border-b flex transition-colors duration-500">
+
+            <button
+                className="md:hidden text-2xl mr-2"
+                onClick={() => setIsSidebarOpen(true)}
+            >
+                ☰
+            </button>
             <h1 className="text-2xl font-semibold grow">Note Again</h1>
             <button
                 onClick={handleAddNote}
@@ -28,5 +35,39 @@ const Header = ({ handleAddNote, isDarkMode, toggleDarkMode }) => {
         </header>
     );
 };
+
+
+
+// const Header = ({ handleAddNote, isDarkMode, toggleDarkMode, setIsSidebarOpen }) => {
+//     return (
+//         <header className="flex items-center justify-between p-4 border-b bg-gray-200 dark:bg-gray-800 dark:text-white">
+//             {/* Botón hamburguesa */}
+//             <button
+//                 className="md:hidden text-2xl mr-2"
+//                 onClick={() => setIsSidebarOpen(true)}
+//             >
+//                 ☰
+//             </button>
+
+//             <h1 className="text-lg font-bold">Note Again</h1>
+
+//             <div className="flex items-center gap-2">
+//                 <button
+//                     onClick={handleAddNote}
+//                     className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition"
+//                 >
+//                     Add Note
+//                 </button>
+//                 <button
+//                     onClick={toggleDarkMode}
+//                     className="text-xl"
+//                     title="Toggle dark mode"
+//                 >
+//                     {isDarkMode ? "🌙" : "☀️"}
+//                 </button>
+//             </div>
+//         </header>
+//     );
+// };
 
 export default Header;

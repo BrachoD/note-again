@@ -2,11 +2,25 @@ import React from "react";
 import NoteList from "./NoteList";
 import SearchBar from "./SearchBar";
 
-const Sidebar = ({ notes, onSelectNote, searchTerm, setSearchTerm, onSortNotes, sortOrderAsc }) => {
+const Sidebar = ({ notes, onSelectNote, searchTerm, setSearchTerm, onSortNotes, sortOrderAsc, isSidebarOpen, setIsSidebarOpen }) => {
     const hasNotes = notes && notes.length > 0;
 
     return (
-        <aside className="w-96 overflow-hidden bg-gray-100 dark:bg-dark-surface text-black dark:text-dark-text h-full p-4 border-r border-gray-300 dark:border-dark-border flex flex-col transition-colors duration-500">
+        <aside
+            className={`
+          fixed z-40 top-0 left-0 h-full w-72 flex flex-col bg-gray-100 dark:bg-dark-surface text-black dark:text-white border-r border-gray-300 dark:border-dark-border p-4 transition-all duration-300 ease-in-out
+          md:static md:translate-x-0 md:w-96
+          ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
+        `}
+        >
+
+            <button
+                className="md:hidden text-right w-full mb-2 text-gray-700 dark:text-gray-300"
+                onClick={() => setIsSidebarOpen(false)}
+            >
+                ✕ Close
+            </button>
+
             <h2 className="text-xl font-bold mb-4">Notes</h2>
 
             {hasNotes ? (<>
@@ -57,5 +71,47 @@ const Sidebar = ({ notes, onSelectNote, searchTerm, setSearchTerm, onSortNotes, 
 
     );
 };
+
+
+
+
+// const Sidebar = ({ notes, onSelectNote, searchTerm, setSearchTerm, onSortNotes, sortOrderAsc, isSidebarOpen, setIsSidebarOpen }) => {
+//     return (
+//         <aside
+//             className={`
+//           fixed z-40 top-0 left-0 h-full w-72 bg-gray-100 dark:bg-dark-surface text-black dark:text-white border-r border-gray-300 dark:border-dark-border p-4 transition-transform duration-300 ease-in-out
+//           md:static md:translate-x-0 md:w-96
+//           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
+//         `}
+//         >
+//             {/* Botón de cerrar solo visible en móviles */}
+//             <button
+//                 className="md:hidden text-right w-full mb-2 text-gray-700 dark:text-gray-300"
+//                 onClick={() => setIsSidebarOpen(false)}
+//             >
+//                 ✕ Close
+//             </button>
+
+//             <h2 className="text-xl font-bold mb-4">Notes</h2>
+
+//             {notes && notes.length > 0 ? (
+//                 <>
+//                     <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+//                     <button
+//                         onClick={onSortNotes}
+//                         className="flex items-center self-center w-3/4 justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 my-2 rounded transition duration-200"
+//                     >
+//                         {sortOrderAsc ? "⬇️ Sort A-Z" : "⬆️ Sort Z-A"}
+//                     </button>
+//                     <NoteList notes={notes} onSelectNote={onSelectNote} />
+//                 </>
+//             ) : (
+//                 <p className="text-sm text-gray-600 dark:text-dark-muted">
+//                     No notes yet. Add a note to get started! ✍️
+//                 </p>
+//             )}
+//         </aside>
+//     );
+// };
 
 export default Sidebar;
