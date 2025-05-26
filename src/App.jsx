@@ -8,15 +8,6 @@ import { toast } from 'react-hot-toast';
 
 
 function App() {
-  // const [notes, setNotes] = useState([
-  //   { id: 1, title: "Ideas para el portafolio", content: "Agregar proyectos de React y una landing page personal." },
-  //   { id: 2, title: "Recetas favoritas", content: "Tacos al pastor, lasaña, y arroz con leche." },
-  //   { id: 3, title: "Libros por leer", content: "Clean Code, Atomic Habits, y El hombre en busca de sentido." },
-  //   { id: 4, title: "Notas del curso de React", content: "useState, useEffect, props, componentes y rutas." },
-  //   { id: 5, title: "Recordatorios semanales", content: "Lunes: revisar tareas. Viernes: actualizar Trello." }
-  // ]);
-
-
 
   const [notes, setNotes] = useState(() => {
     const savedNotes = localStorage.getItem("notes");
@@ -34,6 +25,7 @@ function App() {
     return localStorage.getItem('darkMode') === 'true';
   });
 
+  const [currentContent, setCurrentContent] = useState("");
 
   useEffect(() => {
     const storedDarkMode = localStorage.getItem('darkMode') === 'true';
@@ -75,6 +67,12 @@ function App() {
 
   //Adding a new note.
   const handleAddNote = () => {
+
+    if (selectedNote && !currentContent.trim()) {
+      toast.error("Finish the current empty note before creating a new one.");
+      return;
+    }
+
     const baseTitle = "New Note";
     // Filters all the notes titles that start with "New Note"
     const similarNotes = notes.filter(note =>
@@ -153,7 +151,7 @@ function App() {
         <Header handleAddNote={handleAddNote} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} setIsSidebarOpen={setIsSidebarOpen} />
         <div className="flex flex-1 relative ">
           <Sidebar notes={filteredNotes} onSelectNote={handleSelectNote} searchTerm={searchTerm} setSearchTerm={setSearchTerm} onSortNotes={sortNotesByName} sortOrderAsc={sortOrderAsc} isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
-          <Editor selectedNote={selectedNote} onUpdateNote={handleUpdateNote} onDeleteNote={handleDeleteNote} />
+          <Editor selectedNote={selectedNote} onUpdateNote={handleUpdateNote} onDeleteNote={handleDeleteNote} onContentChange={setCurrentContent} />
         </div>
       </div>
     </>

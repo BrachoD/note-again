@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
+import { toast } from "react-hot-toast";
 
-function Editor({ selectedNote, onUpdateNote, onDeleteNote }) {
+
+function Editor({ selectedNote, onUpdateNote, onDeleteNote, onContentChange }) {
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -11,13 +13,24 @@ function Editor({ selectedNote, onUpdateNote, onDeleteNote }) {
         if (selectedNote) {
             setTitle(selectedNote.title);
             setContent(selectedNote.content);
+            onContentChange(selectedNote.content)
             isInitialLoad.current = true;
         }
-    }, [selectedNote]);
+    }, [selectedNote, onContentChange]);
 
     //If you edit the inputs this is being called.
     useEffect(() => {
+
+
         if (selectedNote && !isInitialLoad.current) {
+            const trimmedTitle = title.trim();
+            const trimmedContent = content.trim();
+
+            if (!trimmedTitle && !trimmedContent) {
+                toast.error("Cannot save an empty note.");
+                return;
+            }
+
             const updatedNote = {
                 ...selectedNote,
                 title,
@@ -32,7 +45,7 @@ function Editor({ selectedNote, onUpdateNote, onDeleteNote }) {
     }, [title, content]);
 
     if (!selectedNote) {
-        return <div className="p-4 flex flex-col gap-4 w-full h-full items-center justify-center text-gray-500 dark:text-dark-muted">Select a note to start editing.</div>;
+        return <div className="p-4 flex flex-1 flex-col gap-4 w-full h-full items-center justify-center text-gray-500 dark:text-dark-muted">Select a note to start editing.</div>;
     }
 
     return (
@@ -47,7 +60,10 @@ function Editor({ selectedNote, onUpdateNote, onDeleteNote }) {
             <textarea
                 className="flex-1 p-2 border rounded h-[300px] w-full transition-colors duration-500 dark:bg-dark-surface dark:border-dark-border dark:text-dark-text"
                 value={content}
-                onChange={(e) => setContent(e.target.value)}
+                onChange={(e) => {
+                    setContent(e.target.value);
+                    onContentChange(e.target.value);
+                }}
                 placeholder="Write your note here..."
             />
 
