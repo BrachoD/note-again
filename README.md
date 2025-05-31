@@ -5,7 +5,7 @@
 
    <br/>
 
-  <img src="./src/assets/screenshot.png" alt="Note Again Screenshot">
+  <img src="./src/assets/screenshot.png" alt="Note Again Screenshot.">
 
   <br/>
 
