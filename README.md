@@ -1,11 +1,11 @@
 <div align="center">
-  <img src="./src/assets/logo-note-again.png.png" alt="Note Again Logo">
+  <img src="./src/assets/logo-note-again.png" alt="Note Again Logo">
 
   <p>Write down your ideas and keep track of all your thoughts.</p>
 
    <br/>
 
-  <img src="./src/assets/screenshot.png" alt="Note Again Screenshot.">
+  <img src="./src/assets/screenshot-note-again.png" alt="Note Again Screenshot">
 
   <br/>
 
